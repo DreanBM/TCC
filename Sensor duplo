@@ -1,0 +1,27 @@
+int sensorLED = 0 ; // LED sensor conectado no pino analogico 0
+int LED1 = 12 ;// LED sensivel a luz conectado ao pino digital 13
+int LED2 = 11 ;// LED sensivel ao escuro conectado ao pino digital 12
+int leitura = 0 ;// Variavel de leitura do sensor
+int limite = 222 ;// Limite escuro - claro
+
+void setup() {
+  pinMode(LED1,OUTPUT);
+  pinMode(LED2,OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  leitura = analogRead(sensorLED);
+  Serial.println(leitura);    // imprime leitura
+  
+  if (leitura >= limite) {         // se luz, liga o LED1 e desliga o LED2
+      digitalWrite(LED1, HIGH);  
+      digitalWrite(LED2, LOW);
+    } else {                      
+      digitalWrite(LED1, LOW);   // se escuro, desliga o LED1 e liga o LED2
+      digitalWrite(LED2, HIGH);    
+    }
+   
+  delay(200); 
+     
+}
