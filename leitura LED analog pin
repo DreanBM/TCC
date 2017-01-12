@@ -1,0 +1,70 @@
+
+  byte anodePin= 3;
+  byte cathodePin= A2;
+  int result;
+  int refLevel;
+
+//setup: declaring inputs and outputs and begin serial 
+void setup() { 
+    _SFR_IO8(0x35) |= 0x10;   // global disable pull up resistors
+ 
+  digitalWrite(anodePin,LOW); // ensure pins go low immediatly after initilising them to outputs
+  pinMode(anodePin,OUTPUT);   // declare the anode pins as outputs
+  pinMode(cathodePin,INPUT); // declare the cathode pins as inputs
+ 
+  Serial.begin(38400);          
+}
+
+//loop: light and then read LEDs 
+void loop () {
+  // turn all LEDs on
+  
+    digitalWrite(anodePin,HIGH);
+    pinMode(cathodePin,OUTPUT);    // Enable cathode pins as outputs
+    digitalWrite(cathodePin,LOW);  // Turn ON LED
+  
+   // charge up LEDs cathode = HIGH, anode = LOW
+   
+    digitalWrite(cathodePin,HIGH); 
+    digitalWrite(anodePin,LOW);    
+  
+     // Put cathode pins into measuring state (analogue input)
+    
+    pinMode(cathodePin,INPUT);
+  
+
+  // Take a reading of the voltage level on the inputs to get a referance level before discharge
+   
+     result= analogRead(cathodePin);  // Store the referance level
+      Serial.print("ref");
+      Serial.println(" ");
+      Serial.print(result);
+      Serial.println(" ");
+
+  //**********************************************************
+  delay(40);  // LED discharge time or photon intergration time
+              // The larger this is, the more sensitave is the system
+  //**********************************************************
+
+      Serial.print("new");
+      Serial.println(" ");
+      Serial.print(analogRead(cathodePin));
+      Serial.print("###");
+      Serial.println(" ");
+
+ // Read the sensors after discharge to measure the incedent light
+      
+     result -= analogRead(cathodePin);     // subtract current reading from the referance to give the drop
+     pinMode(cathodePin,OUTPUT);   // by discharging the LED immediatly the charge on the A/D input is removed and
+     digitalWrite(cathodePin,LOW); // the cross talk between sensors is reduce
+  
+
+    // print out the results or send it to Processing
+    Serial.print(result);
+    Serial.print(" ");
+  
+    Serial.println(" ");
+    Serial.println(" ");
+
+    delay(1000);
+}
