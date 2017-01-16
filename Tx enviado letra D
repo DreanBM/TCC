@@ -1,0 +1,50 @@
+
+void setup(){
+  pinMode(2, OUTPUT);
+}
+
+void loop(){
+  
+  rf_send('D');
+  
+  //rf_send('#');
+  delay(2000);
+  
+}
+
+void rf_send(byte input){
+  int i;
+  
+  for(i=0; i<8; i++){
+  digitalWrite(2, HIGH);
+  delay(250);
+  digitalWrite(2, LOW);
+  delay(250);
+}
+
+  digitalWrite(2, HIGH);
+  delay(2000);
+  digitalWrite(2, LOW);
+  delay(500);
+  
+    
+  for(i=0; i<8; i++){
+  if(bitRead(input,i)==1)
+  digitalWrite(2, HIGH);
+  else
+  digitalWrite(2, LOW);
+  delay(500);
+  
+  if(bitRead(input,i)==1)
+  digitalWrite(2, LOW);
+  else
+  digitalWrite(2, HIGH);
+  delay(500);
+}//i
+
+  
+  digitalWrite(2, LOW);
+}
+
+
+
