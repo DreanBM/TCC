@@ -1,0 +1,40 @@
+int i;
+int LEDPin = A0;     
+int LEDval = 0; 
+int good;
+byte data_in;
+
+void setup(){
+
+  Serial.begin(9600);
+}//setup
+
+void loop(){
+  
+    LEDval = analogRead(LEDPin);    
+    for(i=0; i<100; i++){
+      delay(15);
+      good=1;
+      if(analogRead(LEDPin)<195){
+        good=0;
+        i=100;
+      }
+    }//for
+    if(good==1){
+      if(analogRead(LEDPin)<195){
+        delay(750);
+
+        for(i=0; i<8; i++){
+         if(analogRead(LEDPin)>=195)
+           bitWrite(data_in, i, 1);
+           else
+           bitWrite(data_in, i, 0);
+          delay(1000);
+        }//for
+        if(data_in=='#')
+        Serial.println("");
+        else
+        Serial.print(char(data_in));
+      }
+    }
+}
