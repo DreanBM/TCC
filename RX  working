@@ -26,6 +26,8 @@ void loop(){
      
     if(good==1){                       //só entra se ficou on por 1.5s
     
+    while(1){
+      
       if(analogRead(LEDPin)<195){             //após ficar on por 1.5s, quando for para LOW,
         delay(750);                           //eu espero meio período e começo a ler,
                                               //usando 250 mili como offset. por isso delay(750).
@@ -42,7 +44,8 @@ void loop(){
         Serial.println("");
         else
         Serial.print(char(data_in));            //imprime o caracter
-        
+        break;
       }
+    }
     }
 }
