@@ -42,7 +42,7 @@ void loop(){
         Serial.println("");
         else
         Serial.print(char(data_in));            //imprime o caracter
-        break;
+        
       }
     }
 }
