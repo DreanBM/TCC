@@ -10,26 +10,25 @@ void setup(){
 }//setup
 
 void loop(){
-  
-    LEDval = analogRead(LEDPin);    
-    for(i=0; i<100; i++){               //nesse for eu garanto que o LED fique  
-      delay(15);                        //acesso por no mínimo 1.5s, que é o trigger
-      good=1;
-      if(analogRead(LEDPin)<195){
+ 
+    for(i=0; i<100; i++){
+      LEDval = analogRead(LEDPin);      //nesse for eu garanto que o LED fique  
+      if(LEDval>195){                   //acesso por no mínimo 1.5s, que é o trigger
+        delay(15);                        
+        good=1;
+      }
+      else{
         good=0;
         i=100;
       }
     }//for
-    //Serial.print(good);
-    //Serial.println("");
-     if(good==1){                       //só entra se ficou on por 1.5s
     
-    while(1){
+     
+    if(good==1){                       //só entra se ficou on por 1.5s
     
-     // Serial.print(analogRead(LEDPin));
-      if(analogRead(LEDPin)<195){              //após ficar on por 1.5s, quando for para LOW,
-        delay(750);                            //eu espero meio período e começo a ler,
-    //Serial.print(analogRead(LEDPin));        //usando 250 mili como offset. por isso delay(750).
+      if(analogRead(LEDPin)<195){             //após ficar on por 1.5s, quando for para LOW,
+        delay(750);                           //eu espero meio período e começo a ler,
+                                              //usando 250 mili como offset. por isso delay(750).
         
         for(i=0; i<8; i++){
          if(analogRead(LEDPin)>=195)           //leitura propriamente dita, a cada período(1000).
@@ -38,7 +37,7 @@ void loop(){
            bitWrite(data_in, i, 0);
           delay(1000);
         }//for
-        //Serial.print(data_in,DEC);
+        
         if(data_in=='#')
         Serial.println("");
         else
@@ -46,5 +45,4 @@ void loop(){
         break;
       }
     }
-     }
 }
