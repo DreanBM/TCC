@@ -1,4 +1,3 @@
-
 void setup(){
   pinMode(2, OUTPUT);
 }
@@ -6,9 +5,13 @@ void setup(){
 void loop(){
   
   rf_send('D');
+  rf_send('R');
+  rf_send('E');
+  rf_send('A');
+  rf_send('N');
   
-  //rf_send('#');
-  delay(2000);
+  rf_send('#');
+  delay(500);
   
 }
 
