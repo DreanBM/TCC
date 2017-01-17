@@ -15,29 +15,29 @@ void loop(){
 void rf_send(byte input){
   int i;
   
-  for(i=0; i<8; i++){
+  for(i=0; i<8; i++){          //faz o RX oscilar
   digitalWrite(2, HIGH);
   delay(250);
   digitalWrite(2, LOW);
   delay(250);
 }
 
-  digitalWrite(2, HIGH);
-  delay(2000);
-  digitalWrite(2, LOW);
+  digitalWrite(2, HIGH);        // aqui deixo o LED do TX ligado por 2s,  
+  delay(2000);                  //que vai ser usado como trigger no RX.
+  digitalWrite(2, LOW);          //deixo LOW por meio período(500) e começo a transmissão.
   delay(500);
   
     
   for(i=0; i<8; i++){
   if(bitRead(input,i)==1)
-  digitalWrite(2, HIGH);
+  digitalWrite(2, HIGH);        //transmissão efetiva
   else
   digitalWrite(2, LOW);
   delay(500);
   
   if(bitRead(input,i)==1)
   digitalWrite(2, LOW);
-  else
+  else                          
   digitalWrite(2, HIGH);
   delay(500);
 }//i
@@ -45,6 +45,3 @@ void rf_send(byte input){
   
   digitalWrite(2, LOW);
 }
-
-
-
