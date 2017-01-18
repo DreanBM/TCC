@@ -1,6 +1,5 @@
 int i;
 int LEDPin = A0;     
-int LEDval = 0; 
 int good;
 byte data_in;
 
@@ -11,10 +10,9 @@ void setup(){
 
 void loop(){
  
-    for(i=0; i<100; i++){
-      LEDval = analogRead(LEDPin);      //nesse for eu garanto que o LED fique  
-      if(LEDval>195){                   //acesso por no mínimo 1.5s, que é o trigger
-        delay(15);                        
+    for(i=0; i<25; i++){              
+      if(analogRead(LEDPin)>195){             //nesse for eu garanto que o LED fique
+        delayMicroseconds(300);               //acesso por no mínimo 1.5s, que é o trigger 
         good=1;
       }
       else{
@@ -29,7 +27,7 @@ void loop(){
     while(1){
       
       if(analogRead(LEDPin)<195){             //após ficar on por 1.5s, quando for para LOW,
-        delay(750);                           //eu espero meio período e começo a ler,
+        delayMicroseconds(3750);                           //eu espero meio período e começo a ler,
                                               //usando 250 mili como offset. por isso delay(750).
         
         for(i=0; i<8; i++){
@@ -37,7 +35,7 @@ void loop(){
            bitWrite(data_in, i, 1);
            else
            bitWrite(data_in, i, 0);
-          delay(1000);
+          delay(5);
         }//for
         
         if(data_in=='#')
