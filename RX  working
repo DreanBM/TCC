@@ -10,7 +10,7 @@ void setup(){
 
 void loop(){
  
-    for(i=0; i<25; i++){              
+    for(i=0; i<13; i++){              
       if(analogRead(LEDPin)>195){             //nesse for eu garanto que o LED fique
         delayMicroseconds(300);               //acesso por no mínimo 1.5s, que é o trigger 
         good=1;
