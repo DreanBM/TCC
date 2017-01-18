@@ -1,3 +1,4 @@
+
 void setup(){
   pinMode(2, OUTPUT);
 }
@@ -19,13 +20,13 @@ void rf_send(byte input){
   
   for(i=0; i<8; i++){          //faz o RX oscilar
   digitalWrite(2, HIGH);
-  delayMicroseconds(2500);
+  delayMicroseconds(1500);
   digitalWrite(2, LOW);
-  delayMicroseconds(2500);
+  delayMicroseconds(1500);
 }
 
   digitalWrite(2, HIGH);        // aqui deixo o LED do TX ligado por 2s,  
-  delay(10);                  //que vai ser usado como trigger no RX.
+  delay(5);                  //que vai ser usado como trigger no RX.
   digitalWrite(2, LOW);          //deixo LOW por meio período(500) e começo a transmissão.
   delayMicroseconds(2500);
   
