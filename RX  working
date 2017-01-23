@@ -1,18 +1,19 @@
+#define limite_luz 195
 int i;
-int LEDPin = A0;     
+int LEDPin = A3;     
 int good;
 byte data_in;
 
 void setup(){
 
   Serial.begin(9600);
-}//setup
+}
 
 void loop(){
  
     for(i=0; i<13; i++){              
-      if(analogRead(LEDPin)>195){             //nesse for eu garanto que o LED fique
-        delayMicroseconds(300);               //acesso por no mínimo 1.5s, que é o trigger 
+      if(analogRead(LEDPin)>limite_luz){           //nesse for eu garanto que o LED fique
+        delayMicroseconds(300);                   //acesso por no mínimo 3.9 ms, que é o trigger 
         good=1;
       }
       else{
@@ -22,16 +23,16 @@ void loop(){
     }//for
     
      
-    if(good==1){                       //só entra se ficou on por 1.5s
+    if(good==1){                                  //só entra se ficou on por 3.9 ms
     
     while(1){
       
-      if(analogRead(LEDPin)<195){             //após ficar on por 1.5s, quando for para LOW,
-        delayMicroseconds(3750);                           //eu espero meio período e começo a ler,
-                                              //usando 250 mili como offset. por isso delay(750).
+      if(analogRead(LEDPin)<limite_luz){             //após ficar on por 3.9 ms, quando for para LOW,
+        delayMicroseconds(3750);                    //eu espero meio período e começo a ler,
+                                                    //usando 1.25 mili como offset. por isso delay(3750).
         
         for(i=0; i<8; i++){
-         if(analogRead(LEDPin)>=195)           //leitura propriamente dita, a cada período(1000).
+         if(analogRead(LEDPin)>=limite_luz)           //leitura propriamente dita, a cada período(5 ms).
            bitWrite(data_in, i, 1);
            else
            bitWrite(data_in, i, 0);
@@ -43,7 +44,7 @@ void loop(){
         else
         Serial.print(char(data_in));            //imprime o caracter
         break;
-      }
-    }
-    }
-}
+      } //if
+    }  //while
+    }  //if
+}   //loop
