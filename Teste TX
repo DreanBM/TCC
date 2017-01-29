@@ -1,0 +1,55 @@
+void setup(){
+  pinMode(2, OUTPUT);
+}
+
+void loop(){
+
+  #define n 10
+  int j;
+
+  for(j=0;j<n;j++){
+    rf_send('M');
+  }
+  //rf_send('D');
+  //rf_send('R');
+  //rf_send('E');
+  //rf_send('A');
+  //rf_send('N');
+  
+  rf_send('#');
+  delay(5000);
+}
+
+void rf_send(byte input){
+  int i;
+  
+  for(i=0; i<8; i++){          //faz o TX oscilar
+  digitalWrite(2, HIGH);
+  delayMicroseconds(1500);
+  digitalWrite(2, LOW);
+  delayMicroseconds(1500);
+}
+
+  digitalWrite(2, HIGH);        // aqui deixo o LED do TX ligado por 5 ms,  
+  delay(5);                     //que vai ser usado como trigger no RX.
+  digitalWrite(2, LOW);          //deixo LOW por meio período(2.5 ms) e começo a transmissão.
+  delayMicroseconds(2500);
+  
+    
+  for(i=0; i<8; i++){
+  if(bitRead(input,i)==1)
+  digitalWrite(2, HIGH);        //transmissão efetiva
+  else
+  digitalWrite(2, LOW);
+  delayMicroseconds(2500);
+  
+  if(bitRead(input,i)==1)
+  digitalWrite(2, LOW);
+  else                          
+  digitalWrite(2, HIGH);
+  delayMicroseconds(2500);
+}//i
+
+  
+  digitalWrite(2, LOW);
+}
