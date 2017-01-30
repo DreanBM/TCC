@@ -1,4 +1,4 @@
-int LEDPin = A0;     
+int LEDPin = A3;     
 int LEDval = 0;          
 
 void setup()
