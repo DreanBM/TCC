@@ -1,6 +1,6 @@
-#define limite_luz 195
-#define n 10
-const byte ref = 01001101;                       //binário da letra M.
+#define limite_luz 189
+#define N 100
+const byte ref = B01001101;                       //binário da letra M.
 int i;
 int LEDPin = A3;     
 int good;
@@ -45,10 +45,11 @@ void loop(){
         }//for
         
         if(data_in=='#'){
-        Serial.println("BER:");
-        Serial.print(erros/(8*n),4);
-        Serial.println("");
-        erros=0;
+          Serial.println("");
+          Serial.print(erros-5);
+          Serial.println("      BER: ");
+          Serial.println((float)(erros-5)/(8*N),4);
+          erros=0;
         }
         else
         Serial.print(char(data_in));            //imprime o caracter
