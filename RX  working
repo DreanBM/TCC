@@ -1,12 +1,20 @@
-#define limite_luz 195
+#define limite_luz 415                            //definido conforme o cenário e a configuração do TX e do RX
+#define N 100                                     //número de bytes da trasmissão
+
+const byte ref = B01001101;                       //binário da letra M.
 int i;
-int LEDPin = A3;     
+int LEDPin = A3;                                  //pino de entrada analógica do sensor de Led
 int good;
 byte data_in;
+int erros=0;
+int pare=0;
+int j;
+
 
 void setup(){
 
   Serial.begin(9600);
+  
 }
 
 void loop(){
@@ -32,17 +40,32 @@ void loop(){
                                                     //usando 1.25 mili como offset. por isso delay(3750).
         
         for(i=0; i<8; i++){
+         
          if(analogRead(LEDPin)>=limite_luz)           //leitura propriamente dita, a cada período(5 ms).
            bitWrite(data_in, i, 1);
            else
            bitWrite(data_in, i, 0);
           delay(5);
+          if(bitRead(data_in, i)^bitRead(ref, i))
+            erros++;
+                       
         }//for
         
-        if(data_in=='#')
-        Serial.println("");
+        for(j=0; j<8; j++){
+          if(bitRead(data_in, j)^bitRead(ref, j))     
+            pare++;
+        }
+        
+        if(pare > 5){
+          Serial.println("");
+          Serial.print(erros-pare);                           //caso haja 6 ou mais bits errados em 1 byte
+          Serial.print("      BER: ");                        //é considerado como sendo o final da transmissão  
+          Serial.println((float)(erros-pare)/(8*N),4);        //dos N bytes
+          erros=0;
+        }
         else
-        Serial.print(char(data_in));            //imprime o caracter
+        Serial.print(char(data_in));                          //imprime o caracter
+        pare=0;
         break;
       } //if
     }  //while
